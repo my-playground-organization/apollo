@@ -1,0 +1,19 @@
+[metadata]
+format.version = "1.1"
+
+[versions]
+edc = "0.10.1"
+
+[libraries]
+# SPI modules
+edc-spi-core = { module = "org.eclipse.edc:core-spi", version.ref = "edc" }
+
+# BOM modules
+edc-bom-controlplane = { module = "org.eclipse.edc:controlplane-dcp-bom", version.ref = "edc" }
+edc-bom-dataplane = { module = "org.eclipse.edc:dataplane-base-bom", version.ref = "edc" }
+edc-bom-controlplane-sql = { module = "org.eclipse.edc:controlplane-feature-sql-bom", version.ref = "edc" }
+edc-bom-dataplane-sql = { module = "org.eclipse.edc:dataplane-feature-sql-bom", version.ref = "edc" }
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
+docker = { id = "com.bmuschko.docker-remote-api", version = "9.4.0" }
