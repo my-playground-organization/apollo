@@ -18,7 +18,8 @@ updates:
         patterns:
           - "*"
   - package-ecosystem: docker
-    directory: /
+    directories:
+      - "/runtimes/**/src/main/docker/"
     schedule:
       interval: weekly
     groups:
