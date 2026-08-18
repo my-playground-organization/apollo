@@ -2,7 +2,7 @@
 format.version = "1.1"
 
 [versions]
-edc = "0.10.1"
+edc = "0.18.0"
 edc-build = "1.5.2"
 
 [libraries]
@@ -16,6 +16,6 @@ edc-bom-controlplane-sql = { module = "org.eclipse.edc:controlplane-feature-sql-
 edc-bom-dataplane-sql = { module = "org.eclipse.edc:dataplane-feature-sql-bom", version.ref = "edc" }
 
 [plugins]
-shadow = { id = "com.gradleup.shadow", version = "9.5.1" }
+shadow = { id = "com.gradleup.shadow", version = "9.6.1" }
 docker = { id = "com.bmuschko.docker-remote-api", version = "10.0.0" }
 edc-build = { id = "org.eclipse.edc.edc-build", version.ref = "edc-build" }
