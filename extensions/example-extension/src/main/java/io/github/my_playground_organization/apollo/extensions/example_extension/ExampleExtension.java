@@ -12,7 +12,7 @@
  *
  */
 
-package org.eclipse.edc.template;
+package io.github.my_playground_organization.apollo.extensions.example_extension;
 
 import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.spi.system.ServiceExtension;
@@ -20,7 +20,7 @@ import org.eclipse.edc.spi.system.ServiceExtensionContext;
 
 import java.io.IOException;
 
-import static org.eclipse.edc.template.ExampleExtension.NAME;
+import static io.github.my_playground_organization.apollo.extensions.example_extension.ExampleExtension.NAME;
 
 /**
  * Example extension that demonstrates the extensibility concept

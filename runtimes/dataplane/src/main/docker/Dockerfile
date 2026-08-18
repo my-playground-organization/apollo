@@ -1,5 +1,4 @@
-# -buster is required to have apt available
-FROM eclipse-temurin:24_36-jre-alpine
+FROM eclipse-temurin:25.0.3_9-jre-alpine
 
 # Optional JVM arguments, such as memory settings
 ARG JVM_ARGS=""

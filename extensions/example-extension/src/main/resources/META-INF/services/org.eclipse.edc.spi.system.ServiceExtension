@@ -11,4 +11,4 @@
 #       Bayerische Motoren Werke Aktiengesellschaft (BMW AG) - initial API and implementation
 #
 #
-org.eclipse.edc.template.ExampleExtension
+io.github.my_playground_organization.apollo.extensions.example_extension.ExampleExtension

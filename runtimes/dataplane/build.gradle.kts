@@ -12,9 +12,6 @@
  *
  */
 
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.github.jengelman.gradle.plugins.shadow.ShadowJavaPlugin
-
 /*
  *
  *   Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft
@@ -39,7 +36,6 @@ import com.github.jengelman.gradle.plugins.shadow.ShadowJavaPlugin
 plugins {
     id("application")
     alias(libs.plugins.shadow)
-    alias(libs.plugins.docker)
 }
 
 dependencies {
@@ -51,8 +47,8 @@ dependencies {
 
 }
 
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    exclude("**/pom.properties", "**/pom.xm")
+tasks.shadowJar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     mergeServiceFiles()
     archiveFileName.set("${project.name}.jar")
 }
@@ -65,16 +61,3 @@ edcBuild {
     publish.set(false)
 }
 
-// configure the "dockerize" task
-tasks.register("dockerize", DockerBuildImage::class) {
-    val dockerContextDir = project.projectDir
-    dockerFile.set(file("$dockerContextDir/src/main/docker/Dockerfile"))
-    images.add("${project.name}:${project.version}")
-    images.add("${project.name}:latest")
-    // specify platform with the -Dplatform flag:
-    if (System.getProperty("platform") != null)
-        platform.set(System.getProperty("platform"))
-    buildArgs.put("JAR", "build/libs/${project.name}.jar")
-    inputDir.set(file(dockerContextDir))
-    dependsOn(tasks.named(ShadowJavaPlugin.SHADOW_JAR_TASK_NAME))
-}

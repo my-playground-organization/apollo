@@ -1,56 +1,37 @@
-/*
- *  Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- *
- *  This program and the accompanying materials are made available under the
- *  terms of the Apache License, Version 2.0 which is available at
- *  https://www.apache.org/licenses/LICENSE-2.0
- *
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Contributors:
- *       Bayerische Motoren Werke Aktiengesellschaft (BMW AG) - initial API and implementation
- *
- */
-
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
 plugins {
     `java-library`
-}
-
-val annotationProcessorVersion: String by project
-val metaModelVersion: String by project
-
-buildscript {
-    dependencies {
-        val edcGradlePluginsVersion: String by project
-        classpath("org.eclipse.edc.edc-build:org.eclipse.edc.edc-build.gradle.plugin:${edcGradlePluginsVersion}")
-    }
+    alias(libs.plugins.docker)
+    alias(libs.plugins.edc.build)
 }
 
 allprojects {
-    apply(plugin = "${group}.edc-build")
+    apply(plugin = rootProject.libs.plugins.edc.build.get().pluginId)
+}
 
-    // configure which version of the annotation processor to use. defaults to the same version as the plugin
-    configure<org.eclipse.edc.plugins.autodoc.AutodocExtension> {
-        processorVersion.set(annotationProcessorVersion)
-        outputDirectory.set(project.layout.buildDirectory.asFile)
-    }
+val shadowPluginId = libs.plugins.shadow.get().pluginId
+subprojects {
+    afterEvaluate {
+        if (project.plugins.hasPlugin(shadowPluginId) &&
+            file("${project.projectDir}/src/main/docker/Dockerfile").exists()
+        ) {
+            //actually apply the plugin to the (sub-)project
+            apply(plugin = libs.plugins.docker.get().pluginId)
 
-    configure<org.eclipse.edc.plugins.edcbuild.extensions.BuildExtension> {
-        versions {
-            // override default dependency versions here
-            metaModel.set(metaModelVersion)
+            tasks.register("dockerize", DockerBuildImage::class) {
+                val dockerContextDir = project.projectDir
+                dockerFile.set(file("$dockerContextDir/src/main/docker/Dockerfile"))
+                images.add("ghcr.io/my-playground-organization/apollo/${project.name}:${project.version}")
+                images.add("ghcr.io/my-playground-organization/apollo/${project.name}:latest")
+                // specify platform with the -Dplatform flag:
+                if (System.getProperty("platform") != null) {
+                    platform.set(System.getProperty("platform"))
+                }
+                buildArgs.put("JAR", "build/libs/${project.name}.jar")
+                inputDir.set(file(dockerContextDir))
+                dependsOn("shadowJar")
+            }
         }
-        pom {
-            scmUrl.set("https://github.com/OWNER/REPO.git")
-            scmConnection.set("scm:git:git@github.com:OWNER/REPO.git")
-            developerName.set("yourcompany")
-            developerEmail.set("admin@yourcompany.com")
-            projectName.set("your cool project based on EDC")
-            projectUrl.set("www.coolproject.com")
-            description.set("your description")
-            licenseUrl.set("https://opensource.org/licenses/MIT")
-        }
     }
-
 }
