@@ -2,7 +2,7 @@
 format.version = "1.1"
 
 [versions]
-edc = "0.18.0"
+edc = "1.0.0-RC4"
 edc-build = "1.5.2"
 
 [libraries]
@@ -11,9 +11,7 @@ edc-spi-core = { module = "org.eclipse.edc:core-spi", version.ref = "edc" }
 
 # BOM modules
 edc-bom-controlplane = { module = "org.eclipse.edc:controlplane-dcp-bom", version.ref = "edc" }
-edc-bom-dataplane = { module = "org.eclipse.edc:dataplane-base-bom", version.ref = "edc" }
 edc-bom-controlplane-sql = { module = "org.eclipse.edc:controlplane-feature-sql-bom", version.ref = "edc" }
-edc-bom-dataplane-sql = { module = "org.eclipse.edc:dataplane-feature-sql-bom", version.ref = "edc" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version = "9.6.1" }
