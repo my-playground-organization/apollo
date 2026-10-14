@@ -89,20 +89,3 @@ jobs:
         with:
           container-name: controlplane
           timeout: '60'
-
-      - name: Run DataPlane launcher
-        run: |
-          docker run -d --rm --name dataplane \
-            -e "EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS=testalias" \
-            -e "EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS=testalias" \
-            -e "EDC_DPF_SELECTOR_URL=http://test.me" \
-            -e "WEB_HTTP_CONTROL_PORT=10001" \
-            -e "WEB_HTTP_CONTROL_PATH=/api/v1/resolution/" \
-            -e "WEB_HTTP_PORT=8080" \
-            -e "WEB_HTTP_PATH=/api" \
-            ghcr.io/my-playground-organization/apollo/dataplane
-      - name: Wait for DataPlane to be healthy
-        uses: raschmitt/wait-for-healthy-container@v1
-        with:
-          container-name: dataplane
-          timeout: '60'
