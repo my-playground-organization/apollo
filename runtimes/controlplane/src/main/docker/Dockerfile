@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25.0.4_7-jre-alpine
+FROM eclipse-temurin:27.0.1.1_4-jre-alpine
 
 # Optional JVM arguments, such as memory settings
 ARG JVM_ARGS=""
